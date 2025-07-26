@@ -1,3 +1,10 @@
+import TodoForm from "../../components/TodoForm";
+
 export default function Home() {
-    return <div>Hello Next.js</div>;
+  return (
+    <div>
+      <h1>Hello Next.js</h1>
+      <TodoForm />
+    </div>
+  );
 }

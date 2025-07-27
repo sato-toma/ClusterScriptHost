@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@iarna/toml": "^2.2.5",
     "@reduxjs/toolkit": "^2.8.2",
     "next": "15.3.1",
     "react": "^19.0.0",

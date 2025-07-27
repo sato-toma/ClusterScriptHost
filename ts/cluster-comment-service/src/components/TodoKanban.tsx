@@ -129,22 +129,31 @@ const TodoKanban = () => {
             }),
           );
         }
-      } else if (sourceHandle === "related" && targetHandle === "related") {
+      } else if (
+        sourceHandle === "related-source" &&
+        targetHandle === "related-target"
+      ) {
+        const parentTodo =
+          sourceHandle === "related-source" ? sourceTodo : targetTodo;
+        const ChildTodo =
+          sourceHandle === "related-source" ? sourceTodo : targetTodo;
+        const parent = sourceHandle === "related-source" ? source : target;
+        const child = sourceHandle === "related-source" ? source : target;
         // sourceTodoのrelatedTaskIdsにtargetを追加
-        if (!sourceTodo.relatedTaskIds?.includes(target)) {
+        if (!parentTodo.relatedTaskIds?.includes(child)) {
           dispatch(
             updateTodo({
-              ...sourceTodo,
-              relatedTaskIds: [...(sourceTodo.relatedTaskIds ?? []), target],
+              ...parentTodo,
+              relatedTaskIds: [...(parentTodo.relatedTaskIds ?? []), child],
             }),
           );
         }
         // targetTodoのrelatedTaskIdsにsourceを追加
-        if (!targetTodo.relatedTaskIds?.includes(source)) {
+        if (!ChildTodo.relatedTaskIds?.includes(parent)) {
           dispatch(
             updateTodo({
-              ...targetTodo,
-              relatedTaskIds: [...(targetTodo.relatedTaskIds ?? []), source],
+              ...ChildTodo,
+              relatedTaskIds: [...(ChildTodo.relatedTaskIds ?? []), parent],
             }),
           );
         }

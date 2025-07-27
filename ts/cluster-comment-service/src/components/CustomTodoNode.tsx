@@ -24,13 +24,13 @@ export const CustomTodoNode = ({ data }: NodeProps) => {
       <Handle
         type="source"
         position={Position.Top}
-        id="related"
+        id="elated-source"
         style={{ left: "50%", background: "blue" }}
       />
       <Handle
         type="target"
         position={Position.Bottom}
-        id="related"
+        id="elated-target"
         style={{ left: "50%", background: "blue" }}
       />
       <Handle

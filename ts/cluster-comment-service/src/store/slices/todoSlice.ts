@@ -25,7 +25,20 @@ const todoSlice = createSlice({
       }
     },
     deleteTodo: (state, action: PayloadAction<string>) => {
-      delete state.todos[action.payload];
+      const deleteId = action.payload;
+      // 他のTodoから関連ID・子IDを除去
+      Object.values(state.todos).forEach((todo) => {
+        if (todo.relatedTaskIds) {
+          todo.relatedTaskIds = todo.relatedTaskIds.filter(
+            (id) => id !== deleteId,
+          );
+        }
+        if (todo.childTaskIds) {
+          todo.childTaskIds = todo.childTaskIds.filter((id) => id !== deleteId);
+        }
+      });
+      // Todo自体を削除
+      delete state.todos[deleteId];
     },
   },
 });

@@ -28,7 +28,7 @@ export const CustomTodoNode = ({ data }: NodeProps) => {
         style={{ left: "50%", background: "blue" }}
       />
       <Handle
-        type="source"
+        type="target"
         position={Position.Bottom}
         id="related"
         style={{ left: "50%", background: "blue" }}
@@ -40,7 +40,7 @@ export const CustomTodoNode = ({ data }: NodeProps) => {
         style={{ top: "50%", background: "green" }}
       />
       <Handle
-        type="source"
+        type="target"
         position={Position.Right}
         id="parent"
         style={{ top: "50%", background: "green" }}

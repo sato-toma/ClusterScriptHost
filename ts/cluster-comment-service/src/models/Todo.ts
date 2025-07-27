@@ -6,4 +6,5 @@ export interface Todo {
   description?: string;
   relatedTaskIds?: TodoId[];
   childTaskIds?: TodoId[];
+  parentTaskId?: TodoId;
 }

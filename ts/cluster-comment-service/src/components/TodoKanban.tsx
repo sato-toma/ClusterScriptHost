@@ -2,7 +2,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../store/store";
 import { updateTodo } from "../store/slices/todoSlice";
-import { Todo, TodoId } from "../models/Todo";
+import { Todo } from "../models/Todo";
 import ReactFlow, {
   Background,
   Controls,
@@ -10,11 +10,15 @@ import ReactFlow, {
   Edge,
   Connection,
   OnConnect,
-  ReactFlowProvider,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { useMemo, useCallback, useState } from "react";
-const nodeWidth = 250;
+import { useCallback } from "react";
+import CustomTodoNode from "./CustomTodoNode";
+
+const nodeTypes = {
+  todo: CustomTodoNode,
+};
+
 const nodeHeight = 120;
 
 const TodoKanban = () => {
@@ -25,58 +29,47 @@ const TodoKanban = () => {
   const isolatedNodes = todos.filter(
     (todo) =>
       (!todo.relatedTaskIds || todo.relatedTaskIds.length === 0) &&
-      (!todo.childTaskIds || todo.childTaskIds.length === 0),
+      (!todo.childTaskIds || todo.childTaskIds.length === 0) &&
+      !todo.parentTaskId,
   );
 
-  const relatedNodes = todos.filter(
-    (todo) => todo.relatedTaskIds && todo.relatedTaskIds.length > 0,
+  const parentlessNodes = todos.filter(
+    (todo) =>
+      !todo.parentTaskId &&
+      ((todo.relatedTaskIds && todo.relatedTaskIds.length > 0) ||
+        (todo.childTaskIds && todo.childTaskIds.length > 0)),
   );
 
-  const childNodes = todos.filter(
-    (todo) => todo.childTaskIds && todo.childTaskIds.length > 0,
-  );
-
+  const childNodes = todos.filter((todo) => todo.parentTaskId);
   const nodes: Node[] = [
-    // 孤立ノード（左側・縦並び）
+    // Isolated nodes (left, vertical)
     ...isolatedNodes.map((todo, idx) => ({
       id: todo.id,
-      type: "default",
+      type: "todo",
       position: { x: 50, y: 50 + idx * (nodeHeight + 40) },
       data: {
-        label: (
-          <div style={{ width: nodeWidth, background: "#eee" }}>
-            <strong>孤立ノード</strong>
-            <div>{todo.title}</div>
-          </div>
-        ),
+        todo,
+        nodeType: "source",
       },
     })),
-    // 関連ノード（中央・縦並び）
-    ...relatedNodes.map((todo, idx) => ({
+    // Related nodes (center, vertical)
+    ...parentlessNodes.map((todo, idx) => ({
       id: todo.id,
-      type: "default",
+      type: "todo",
       position: { x: 350, y: 50 + idx * (nodeHeight + 40) },
       data: {
-        label: (
-          <div style={{ width: nodeWidth, background: "#e0f7fa" }}>
-            <strong>関連ノード</strong>
-            <div>{todo.title}</div>
-          </div>
-        ),
+        todo,
+        nodeType: "source",
       },
     })),
-    // 子ノード（右側・縦並び）
+    // Child nodes (right, vertical)
     ...childNodes.map((todo, idx) => ({
       id: todo.id,
-      type: "default",
+      type: "todo",
       position: { x: 650, y: 50 + idx * (nodeHeight + 40) },
       data: {
-        label: (
-          <div style={{ width: nodeWidth, background: "#f1f8e9" }}>
-            <strong>子ノード</strong>
-            <div>{todo.title}</div>
-          </div>
-        ),
+        todo,
+        nodeType: "source",
       },
     })),
   ];
@@ -106,29 +99,55 @@ const TodoKanban = () => {
   // エッジ追加時（ノードを結び付けたとき）
   const onConnect: OnConnect = useCallback(
     (connection: Connection) => {
-      const { source, target } = connection;
+      const { source, target, sourceHandle, targetHandle } = connection;
       if (!source || !target) return;
       const sourceTodo = todosObj[source];
       const targetTodo = todosObj[target];
       if (!sourceTodo || !targetTodo) return;
 
-      // sourceTodoのrelatedTaskIdsにtargetを追加
-      if (!sourceTodo.relatedTaskIds?.includes(target)) {
-        dispatch(
-          updateTodo({
-            ...sourceTodo,
-            relatedTaskIds: [...(sourceTodo.relatedTaskIds ?? []), target],
-          }),
-        );
-      }
-      // targetTodoのrelatedTaskIdsにsourceを追加
-      if (!targetTodo.relatedTaskIds?.includes(source)) {
-        dispatch(
-          updateTodo({
-            ...targetTodo,
-            relatedTaskIds: [...(targetTodo.relatedTaskIds ?? []), source],
-          }),
-        );
+      if (
+        (sourceHandle === "child" && targetHandle === "parent") ||
+        (sourceHandle === "parent" && targetHandle === "child")
+      ) {
+        const parentTodo = sourceHandle === "parent" ? sourceTodo : targetTodo;
+        const ChildTodo = sourceHandle === "child" ? sourceTodo : targetTodo;
+        const parent = sourceHandle === "parent" ? source : target;
+        const child = sourceHandle === "child" ? source : target;
+        if (!parentTodo.childTaskIds?.includes(child)) {
+          dispatch(
+            updateTodo({
+              ...parentTodo,
+              childTaskIds: [...(sourceTodo.childTaskIds ?? []), child],
+            }),
+          );
+        }
+        if (ChildTodo.parentTaskId !== parent) {
+          dispatch(
+            updateTodo({
+              ...ChildTodo,
+              parentTaskId: parent,
+            }),
+          );
+        }
+      } else if (sourceHandle === "related" && targetHandle === "related") {
+        // sourceTodoのrelatedTaskIdsにtargetを追加
+        if (!sourceTodo.relatedTaskIds?.includes(target)) {
+          dispatch(
+            updateTodo({
+              ...sourceTodo,
+              relatedTaskIds: [...(sourceTodo.relatedTaskIds ?? []), target],
+            }),
+          );
+        }
+        // targetTodoのrelatedTaskIdsにsourceを追加
+        if (!targetTodo.relatedTaskIds?.includes(source)) {
+          dispatch(
+            updateTodo({
+              ...targetTodo,
+              relatedTaskIds: [...(targetTodo.relatedTaskIds ?? []), source],
+            }),
+          );
+        }
       }
     },
     [todosObj, dispatch],
@@ -158,6 +177,7 @@ const TodoKanban = () => {
       <ReactFlow
         nodes={nodes}
         edges={edges}
+        nodeTypes={nodeTypes}
         fitView
         onConnect={onConnect}
         onEdgesDelete={onEdgesDelete}

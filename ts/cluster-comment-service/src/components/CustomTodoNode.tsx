@@ -1,8 +1,20 @@
 import { Handle, NodeProps, Position } from "reactflow";
-
+import { Todo } from "../models/Todo";
 const nodeWidth = 250;
+export const TODO_NODE_TYPES = {
+  ISOLATED: "isolated",
+  RELATED: "related",
+} as const;
 
-export const CustomTodoNode = ({ data }: NodeProps) => {
+export type TodoNodeType =
+  (typeof TODO_NODE_TYPES)[keyof typeof TODO_NODE_TYPES];
+
+export interface CustomNodeData {
+  todo: Todo;
+  nodeType: TodoNodeType;
+}
+
+export const CustomTodoNode = ({ data }: NodeProps<CustomNodeData>) => {
   const { todo, nodeType } = data;
 
   return (
@@ -10,9 +22,9 @@ export const CustomTodoNode = ({ data }: NodeProps) => {
       style={{
         width: nodeWidth,
         background:
-          nodeType === "isolated"
+          nodeType === TODO_NODE_TYPES.ISOLATED
             ? "#eee"
-            : nodeType === "related"
+            : nodeType === TODO_NODE_TYPES.RELATED
               ? "#e0f7fa"
               : "#f1f8e9",
         padding: 10,
@@ -24,32 +36,20 @@ export const CustomTodoNode = ({ data }: NodeProps) => {
       <Handle
         type="source"
         position={Position.Top}
-        id="elated-source"
+        id="related-source"
         style={{ left: "50%", background: "blue" }}
       />
       <Handle
         type="target"
         position={Position.Bottom}
-        id="elated-target"
+        id="related-target"
         style={{ left: "50%", background: "blue" }}
-      />
-      <Handle
-        type="source"
-        position={Position.Left}
-        id="child"
-        style={{ top: "50%", background: "green" }}
-      />
-      <Handle
-        type="target"
-        position={Position.Right}
-        id="parent"
-        style={{ top: "50%", background: "green" }}
       />
 
       <strong>
-        {nodeType === "isolated"
+        {nodeType === TODO_NODE_TYPES.ISOLATED
           ? "Isolated Node"
-          : nodeType === "related"
+          : nodeType === TODO_NODE_TYPES.RELATED
             ? "Related Node"
             : "Child Node"}
       </strong>

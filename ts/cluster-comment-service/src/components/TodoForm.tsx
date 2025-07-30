@@ -18,7 +18,7 @@ const TodoForm = ({ channelId }: TodoFormProps) => {
       id: uuidv4(),
       name: name,
       completed: false,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
       channelId: channelId,
       description: description,
     };

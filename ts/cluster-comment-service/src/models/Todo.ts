@@ -1,4 +1,5 @@
 import { ChannelId } from "./TodoChannel";
+import { ISODateString } from "../types/date";
 export type TodoId = string;
 
 export interface Todo {
@@ -8,10 +9,10 @@ export interface Todo {
   name: string;
   description?: string;
 
-  dueDate?: Date;
+  dueDate?: ISODateString;
   completed: boolean;
-  createdAt: Date;
-  updatedAt?: Date;
+  createdAt: ISODateString;
+  updatedAt?: ISODateString;
 
   relatedTaskIds?: TodoId[];
   childTaskIds?: TodoId[];

@@ -13,7 +13,10 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { useCallback } from "react";
-import CustomTodoNode, { TODO_NODE_TYPES } from "./CustomTodoNode";
+import CustomTodoNode, {
+  TODO_NODE_TYPES,
+  TODO_HANDLE_ID,
+} from "./CustomTodoNode";
 
 const nodeTypes = {
   todo: CustomTodoNode,
@@ -86,8 +89,8 @@ const TodoKanban = () => {
       if (!sourceTodo || !targetTodo) return;
 
       if (
-        sourceHandle === "related-source" &&
-        targetHandle === "related-target"
+        sourceHandle === TODO_HANDLE_ID.RELATED_SOURCE &&
+        targetHandle === TODO_HANDLE_ID.RELATED_TARGET
       ) {
         const parentTodo = sourceTodo;
         const ChildTodo = targetTodo;

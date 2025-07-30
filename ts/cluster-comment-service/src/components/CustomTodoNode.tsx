@@ -1,9 +1,14 @@
 import { Handle, NodeProps, Position } from "reactflow";
 import { Todo } from "../models/Todo";
 const nodeWidth = 250;
+
 export const TODO_NODE_TYPES = {
   ISOLATED: "isolated",
   RELATED: "related",
+} as const;
+export const TODO_HANDLE_ID = {
+  RELATED_SOURCE: "related-source",
+  RELATED_TARGET: "related-target",
 } as const;
 
 export type TodoNodeType =
@@ -36,13 +41,13 @@ export const CustomTodoNode = ({ data }: NodeProps<CustomNodeData>) => {
       <Handle
         type="source"
         position={Position.Top}
-        id="related-source"
+        id={TODO_HANDLE_ID.RELATED_SOURCE}
         style={{ left: "50%", background: "blue" }}
       />
       <Handle
         type="target"
         position={Position.Bottom}
-        id="related-target"
+        id={TODO_HANDLE_ID.RELATED_TARGET}
         style={{ left: "50%", background: "blue" }}
       />
 

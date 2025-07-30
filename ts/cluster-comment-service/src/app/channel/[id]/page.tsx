@@ -25,15 +25,24 @@ export async function generateMetadata(
   if (!product) {
     return notFound();
   }
-  // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || [];
 
   return {
     title: product.title,
-    openGraph: {
-      images: ["/some-specific-page-image.jpg", ...previousImages],
-    },
   };
 }
 
-export default function Page() {}
+export default async function Page({ params }: Props) {
+  const { id } = await params;
+
+  const channel = channels.find((c) => c.id === id);
+
+  if (!channel) {
+    notFound();
+  }
+  return (
+    <div>
+      <h1>Channel: {channel.title}</h1>
+      <p>ID: {channel.id}</p>
+    </div>
+  );
+}

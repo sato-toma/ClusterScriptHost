@@ -58,7 +58,7 @@ export const CustomTodoNode = ({ data }: NodeProps<CustomNodeData>) => {
             ? "Related Node"
             : "Child Node"}
       </strong>
-      <div>{todo.title}</div>
+      <div>{todo.name}</div>
     </div>
   );
 };

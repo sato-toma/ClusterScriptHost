@@ -5,7 +5,7 @@ import TodoKanban from "../../components/TodoKanban";
 export default function Home() {
   return (
     <div>
-      <TodoForm />
+      <TodoForm channelId={"SampleChannelId"} />
       <TodoList />
       <TodoKanban />
     </div>

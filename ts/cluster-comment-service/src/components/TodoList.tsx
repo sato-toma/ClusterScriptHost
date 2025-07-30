@@ -14,12 +14,12 @@ const TodoList = () => {
       {todos.map((todo) => (
         <li key={todo.id}>
           <input
-            value={todo.title}
+            value={todo.name}
             onChange={(e) =>
               dispatch(
                 updateTodo({
                   ...todo,
-                  title: e.target.value,
+                  name: e.target.value,
                 }),
               )
             }

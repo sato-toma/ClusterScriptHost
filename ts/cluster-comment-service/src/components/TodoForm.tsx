@@ -3,29 +3,36 @@ import React, { useState } from "react";
 import { useAppDispatch } from "../store/hooks";
 import { addTodo } from "../store/slices/todoSlice";
 import { v4 as uuidv4 } from "uuid";
+import { ChannelId } from "../models/TodoChannel";
 
-const TodoForm = () => {
+type TodoFormProps = {
+  channelId: ChannelId;
+};
+const TodoForm = ({ channelId }: TodoFormProps) => {
   const dispatch = useAppDispatch();
-  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   const handleSubmit = () => {
     const newTodo = {
       id: uuidv4(),
-      title,
-      description,
+      name: name,
+      completed: false,
+      createdAt: new Date(),
+      channelId: channelId,
+      description: description,
     };
     dispatch(addTodo(newTodo));
-    setTitle("");
+    setName("");
     setDescription("");
   };
 
   return (
     <div>
       <input
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
       <textarea
         placeholder="Description"

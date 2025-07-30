@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../store/store";
 import { updateTodo, deleteTodo } from "../store/slices/todoSlice";
 import { Todo } from "../models/Todo";
-
+import ShareMessage from "./Molecules/ShareMessage";
 const TodoList = () => {
   const todosObj = useSelector((state: RootState) => state.todos.todos);
   const todos: Todo[] = Object.values(todosObj);
@@ -40,6 +40,9 @@ const TodoList = () => {
           <button onClick={() => dispatch(deleteTodo(todo.id))}>
             delete todo
           </button>
+          <ShareMessage
+            text={`[TODO] ${todo.name}${todo.description ? `\n${todo.description}` : ""}`}
+          ></ShareMessage>
         </li>
       ))}
     </ul>

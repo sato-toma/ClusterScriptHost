@@ -27,11 +27,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen flex`}
       >
         <Sidebar />
 
-        <ReduxProvider>{children}</ReduxProvider>
+        <ReduxProvider>
+          <main className="flex-1 overflow-auto">{children}</main>
+        </ReduxProvider>
       </body>
     </html>
   );

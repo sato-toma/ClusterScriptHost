@@ -1,4 +1,4 @@
-import ChannelList from "./ChannelList";
+import ChannelList from "../ChannelList";
 
 export default function Sidebar() {
   return (

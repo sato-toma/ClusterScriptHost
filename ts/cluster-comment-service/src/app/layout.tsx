@@ -14,10 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ReduxProvider>
-      <AppLayout>
-        <main className="flex-1 overflow-auto">{children}</main>
-      </AppLayout>
-    </ReduxProvider>
+    <html lang="ja">
+      <body>
+        <AppLayout>{children}</AppLayout>
+      </body>
+    </html>
   );
 }

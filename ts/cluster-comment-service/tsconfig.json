@@ -20,9 +20,10 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@store/*": ["store/*"],
       "@components/*": ["components/*"],
-      "@lib/*": ["lib/*"]
+      "@lib/*": ["lib/*"],
+      "@models/*": ["models/*"],
+      "@store/*": ["store/*"]
     },
     "baseUrl": "./src"
   },

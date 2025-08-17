@@ -1,18 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Channel } from "@models/TodoChannel";
 
-export type Channel = {
-  id: string;
-  title: string;
-};
 type ChannelState = {
   channels: Channel[];
   activeChannelId: string | null;
 };
 const initialState: ChannelState = {
   channels: [
-    { id: "work", title: "Work" },
-    { id: "daily", title: "Daily" },
-    { id: "private", title: "Private" },
+    { id: "work", name: "Work", serverId: "", isPrivate: false, order: 1 },
+    { id: "daily", name: "Daily", serverId: "", isPrivate: false, order: 2 },
+    {
+      id: "private",
+      name: "Private",
+      serverId: "",
+      isPrivate: false,
+      order: 3,
+    },
   ],
   activeChannelId: null,
 };

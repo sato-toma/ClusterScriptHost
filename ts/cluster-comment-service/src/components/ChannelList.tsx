@@ -2,7 +2,8 @@
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@store/store";
-import { setActiveChannel, Channel } from "@store/slices/channelSlice";
+import { Channel } from "@models/TodoChannel";
+import { setActiveChannel } from "@store/slices/channelSlice";
 
 export default function ChannelList() {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ export default function ChannelList() {
             }`}
             onClick={() => dispatch(setActiveChannel(channel.id))}
           >
-            #{channel.title}
+            #{channel.name}
           </Link>
         </li>
       ))}

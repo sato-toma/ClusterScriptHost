@@ -23,6 +23,7 @@
       "@components/*": ["components/*"],
       "@lib/*": ["lib/*"],
       "@models/*": ["models/*"],
+      "@repositories/*": ["repositories/*"],
       "@store/*": ["store/*"]
     },
     "baseUrl": "./src"

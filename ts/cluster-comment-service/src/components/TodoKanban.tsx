@@ -1,6 +1,6 @@
 "use client";
 import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../store/store";
+import type { RootState } from "../store";
 import { updateTodo } from "../store/slices/todoSlice";
 import { Todo } from "../models/Todo";
 import ReactFlow, {

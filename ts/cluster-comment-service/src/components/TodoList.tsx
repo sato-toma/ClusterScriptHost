@@ -1,9 +1,9 @@
 "use client";
 import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../store/store";
+import type { RootState } from "../store";
 import { updateTodo, deleteTodo } from "../store/slices/todoSlice";
 import { Todo } from "../models/Todo";
-import ShareMessage from "./Molecules/ShareMessage";
+import ShareMessage from "@components/molecules/ShareMessage";
 const TodoList = () => {
   const todosObj = useSelector((state: RootState) => state.todos.todos);
   const todos: Todo[] = Object.values(todosObj);

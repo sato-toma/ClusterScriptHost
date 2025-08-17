@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import todoReducer from "./slices/todoSlice";
+import channelReducer from "./slices/channelSlice";
 
 export const store = configureStore({
   reducer: {
     todos: todoReducer,
+    channel: channelReducer,
   },
 });
 

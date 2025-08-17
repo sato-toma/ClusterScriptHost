@@ -1,8 +1,8 @@
 "use client";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../store";
+import { useDispatch } from "react-redux";
+
 import { updateTodo } from "../store/slices/todoSlice";
-import { Todo } from "../models/Todo";
+import { Todo, TodoId } from "@models/Todo";
 import ReactFlow, {
   Background,
   Controls,
@@ -17,17 +17,89 @@ import CustomTodoNode, {
   TODO_NODE_TYPES,
   TODO_HANDLE_ID,
 } from "./CustomTodoNode";
+import { ChannelId } from "@models/TodoChannel";
 
 const nodeTypes = {
   todo: CustomTodoNode,
 };
 
 const nodeHeight = 120;
-
-const TodoKanban = () => {
-  const todosObj = useSelector((state: RootState) => state.todos.todos);
-  const todos: Todo[] = Object.values(todosObj);
+export type TodoKanbanProps = {
+  channelId?: ChannelId;
+  todosObj?: Record<TodoId, Todo>;
+};
+const TodoKanban = ({ channelId, todosObj }: TodoKanbanProps) => {
   const dispatch = useDispatch();
+
+  // エッジ追加時（ノードを結び付けたとき）
+  const onConnect: OnConnect = useCallback(
+    (connection: Connection) => {
+      const { source, target, sourceHandle, targetHandle } = connection;
+      if (!source || !target) return;
+      const sourceTodo = todosObj?.[source];
+      const targetTodo = todosObj?.[target];
+      if (!sourceTodo || !targetTodo) return;
+
+      if (
+        sourceHandle === TODO_HANDLE_ID.RELATED_SOURCE &&
+        targetHandle === TODO_HANDLE_ID.RELATED_TARGET
+      ) {
+        const parentTodo = sourceTodo;
+        const ChildTodo = targetTodo;
+        const parent = source;
+        const child = target;
+        // sourceTodoのrelatedTaskIdsにtargetを追加
+        if (!parentTodo.relatedTaskIds?.includes(child)) {
+          dispatch(
+            updateTodo({
+              ...parentTodo,
+              relatedTaskIds: [...(parentTodo.relatedTaskIds ?? []), child],
+            }),
+          );
+        }
+        // targetTodoのrelatedTaskIdsにsourceを追加
+        if (!ChildTodo.relatedTaskIds?.includes(parent)) {
+          dispatch(
+            updateTodo({
+              ...ChildTodo,
+              relatedTaskIds: [...(ChildTodo.relatedTaskIds ?? []), parent],
+            }),
+          );
+        }
+      }
+    },
+    [todosObj, dispatch],
+  );
+
+  // エッジ削除時
+  const onEdgesDelete = useCallback(
+    (deletedEdges: Edge[]) => {
+      deletedEdges.forEach((edge) => {
+        const sourceTodo = todosObj?.[edge.source];
+        if (!sourceTodo || !sourceTodo.relatedTaskIds) return;
+        dispatch(
+          updateTodo({
+            ...sourceTodo,
+            relatedTaskIds: sourceTodo.relatedTaskIds.filter(
+              (id) => id !== edge.target,
+            ),
+          }),
+        );
+      });
+    },
+    [todosObj, dispatch],
+  );
+  if (!channelId) {
+    return (
+      <div className="p-4 text-gray-400">
+        Select a channel to view the kanban board.
+      </div>
+    );
+  }
+
+  const todos: Todo[] = Object.values(todosObj ?? {}).filter(
+    (todo) => todo.channelId === channelId,
+  );
 
   const isolatedNodes = todos.filter(
     (todo) =>
@@ -78,65 +150,6 @@ const TodoKanban = () => {
       })),
     ),
   ];
-
-  // エッジ追加時（ノードを結び付けたとき）
-  const onConnect: OnConnect = useCallback(
-    (connection: Connection) => {
-      const { source, target, sourceHandle, targetHandle } = connection;
-      if (!source || !target) return;
-      const sourceTodo = todosObj[source];
-      const targetTodo = todosObj[target];
-      if (!sourceTodo || !targetTodo) return;
-
-      if (
-        sourceHandle === TODO_HANDLE_ID.RELATED_SOURCE &&
-        targetHandle === TODO_HANDLE_ID.RELATED_TARGET
-      ) {
-        const parentTodo = sourceTodo;
-        const ChildTodo = targetTodo;
-        const parent = source;
-        const child = target;
-        // sourceTodoのrelatedTaskIdsにtargetを追加
-        if (!parentTodo.relatedTaskIds?.includes(child)) {
-          dispatch(
-            updateTodo({
-              ...parentTodo,
-              relatedTaskIds: [...(parentTodo.relatedTaskIds ?? []), child],
-            }),
-          );
-        }
-        // targetTodoのrelatedTaskIdsにsourceを追加
-        if (!ChildTodo.relatedTaskIds?.includes(parent)) {
-          dispatch(
-            updateTodo({
-              ...ChildTodo,
-              relatedTaskIds: [...(ChildTodo.relatedTaskIds ?? []), parent],
-            }),
-          );
-        }
-      }
-    },
-    [todosObj, dispatch],
-  );
-
-  // エッジ削除時
-  const onEdgesDelete = useCallback(
-    (deletedEdges: Edge[]) => {
-      deletedEdges.forEach((edge) => {
-        const sourceTodo = todosObj[edge.source];
-        if (!sourceTodo || !sourceTodo.relatedTaskIds) return;
-        dispatch(
-          updateTodo({
-            ...sourceTodo,
-            relatedTaskIds: sourceTodo.relatedTaskIds.filter(
-              (id) => id !== edge.target,
-            ),
-          }),
-        );
-      });
-    },
-    [todosObj, dispatch],
-  );
 
   return (
     <div style={{ width: "100%", height: "600px" }}>

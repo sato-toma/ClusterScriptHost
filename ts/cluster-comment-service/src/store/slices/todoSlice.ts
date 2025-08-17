@@ -6,7 +6,15 @@ interface TodosState {
 }
 
 const initialState: TodosState = {
-  todos: {},
+  todos: {
+    sample: {
+      id: "TodoId",
+      channelId: "ChannelId",
+      name: "Sample Todo",
+      completed: false,
+      createdAt: "ISODateString",
+    },
+  },
 };
 
 const todoSlice = createSlice({

@@ -1,13 +1,32 @@
 "use client";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../store";
+
+import { useDispatch } from "react-redux";
 import { updateTodo, deleteTodo } from "../store/slices/todoSlice";
-import { Todo } from "../models/Todo";
+import { Todo, TodoId } from "@models/Todo";
 import ShareMessage from "@components/molecules/ShareMessage";
-const TodoList = () => {
-  const todosObj = useSelector((state: RootState) => state.todos.todos);
-  const todos: Todo[] = Object.values(todosObj);
+import { ChannelId } from "@models/TodoChannel";
+export type TodoListProps = {
+  channelId?: ChannelId;
+  todosObj?: Record<TodoId, Todo>;
+};
+
+const TodoList = ({ channelId, todosObj }: TodoListProps) => {
   const dispatch = useDispatch();
+
+  if (!channelId) {
+    return (
+      <div className="p-4 text-gray-400">
+        Select a channel to view the kanban board.
+      </div>
+    );
+  }
+  const todos: Todo[] = Object.values(todosObj ?? {}).filter(
+    (todo) => todo.channelId === channelId,
+  );
+
+  if (todos.length === 0) {
+    return <div className="p-4 text-gray-400">No tasks in this channel.</div>;
+  }
 
   return (
     <ul>

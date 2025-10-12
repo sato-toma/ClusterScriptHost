@@ -17,6 +17,7 @@ const TodoForm = ({ channelId }: TodoFormProps) => {
     const newTodo = {
       id: uuidv4(),
       name: name,
+      creatorId: "currentUser", // TODO: Replace with actual user ID from authentication
       completed: false,
       createdAt: new Date().toISOString(),
       channelId: channelId,

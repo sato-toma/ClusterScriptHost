@@ -1,7 +1,7 @@
 import { ServerChannel } from "@models/ServerChannel";
 export const serverChannels: ServerChannel[] = [
   {
-    server: { id: "server1", name: "Blue Server" },
+    server: { id: "server1", name: "Blue Server", ownerId: "user1" },
     channels: [
       {
         id: "general",
@@ -27,7 +27,7 @@ export const serverChannels: ServerChannel[] = [
     ],
   },
   {
-    server: { id: "server2", name: "Green Server" },
+    server: { id: "server2", name: "Green Server", ownerId: "user1" },
     channels: [
       {
         id: "daily",
@@ -46,7 +46,7 @@ export const serverChannels: ServerChannel[] = [
     ],
   },
   {
-    server: { id: "server3", name: "Red Server" },
+    server: { id: "server3", name: "Red Server", ownerId: "user1" },
     channels: [
       {
         id: "game",

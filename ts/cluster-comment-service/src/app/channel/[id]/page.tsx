@@ -12,10 +12,7 @@ const channels = [
   { id: "private", title: "Private" },
 ];
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata,
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // read route params
   const { id } = await params;
 

@@ -9,7 +9,7 @@ const ShareMessage = ({ text }: { text: string }) => {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
+    } catch {
       alert("failed to copy text");
     }
   };

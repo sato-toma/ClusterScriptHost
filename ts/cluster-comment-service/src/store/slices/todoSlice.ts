@@ -10,6 +10,7 @@ const initialState: TodosState = {
     sample: {
       id: "TodoId",
       channelId: "ChannelId",
+      creatorId: "UserId",
       name: "Sample Todo",
       completed: false,
       createdAt: "ISODateString",

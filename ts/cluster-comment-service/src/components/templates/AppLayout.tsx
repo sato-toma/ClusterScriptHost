@@ -2,7 +2,7 @@
 import { ReactNode } from "react";
 import Sidebar from "@components/organisms/Sidebar";
 import ServerNav from "@components/organisms/ServerNav";
-
+import AuthStatus from "@components/AuthStatus";
 type Props = {
   children: ReactNode;
 };
@@ -23,6 +23,7 @@ const AppLayout = ({ children }: Props) => {
             <option>Option 2</option>
           </select>
           <button className="text-2xl">⋮</button>
+          <AuthStatus />
         </header>
         <main className="flex-1 overflow-auto">{children}</main>
       </div>

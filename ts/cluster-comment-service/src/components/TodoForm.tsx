@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { addTodo } from "../store/slices/todoSlice";
 import { v4 as uuidv4 } from "uuid";
 import { ChannelId } from "../models/TodoChannel";
@@ -10,14 +10,19 @@ type TodoFormProps = {
 };
 const TodoForm = ({ channelId }: TodoFormProps) => {
   const dispatch = useAppDispatch();
+  const currentUser = useAppSelector((state) => state.auth.currentUser);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   const handleSubmit = () => {
+    if (!currentUser) {
+      alert("Please login to add a todo.");
+      return;
+    }
     const newTodo = {
       id: uuidv4(),
       name: name,
-      creatorId: "currentUser", // TODO: Replace with actual user ID from authentication
+      creatorId: currentUser.id,
       completed: false,
       createdAt: new Date().toISOString(),
       channelId: channelId,

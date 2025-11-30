@@ -18,10 +18,6 @@ const AppLayout = ({ children }: Props) => {
       </div>
       <div className="flex flex-col flex-1 bg-black">
         <header className="flex items-center justify-between px-4 py-2 bg-gray-900 text-white shadow">
-          <select className="bg-gray-800 text-white px-2 py-1 rounded">
-            <option>Option 1</option>
-            <option>Option 2</option>
-          </select>
           <button className="text-2xl">⋮</button>
           <AuthStatus />
         </header>

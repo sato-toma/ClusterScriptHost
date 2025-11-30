@@ -1,4 +1,5 @@
-import AppLayout from "@components/templates/AppLayout";
+"use client";
+
 import TodoForm from "@components/TodoForm";
 import TodoList from "@components/TodoList";
 import TodoKanban from "@components/TodoKanban";
@@ -6,14 +7,14 @@ import { RootState } from "@store/index";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-export default function Home() {
+export default function DashboardPage() {
   const selectedChannelId = useSelector(
     (state: RootState) => state.server.selectedChannelId,
   );
   const todos = useSelector((state: RootState) => state.todos.todos);
   const [viewMode, setViewMode] = useState("table");
   return (
-    <AppLayout>
+    <>
       {selectedChannelId ? (
         <div>
           <select
@@ -37,6 +38,6 @@ export default function Home() {
           Select a channel to add a new task.
         </div>
       )}
-    </AppLayout>
+    </>
   );
 }

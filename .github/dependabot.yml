@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/ts/cluster-comment-service"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 5
+    assignees:
+      - sato-toma
+    labels:
+      - "dependabot"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 5
+    assignees:
+      - sato-toma
+    labels:
+      - "dependabot"

@@ -1,6 +1,7 @@
 name: ESLint Check
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - "**.ts"

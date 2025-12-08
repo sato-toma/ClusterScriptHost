@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@eslint/config-array": "^0.23.0",
-    "@eslint/object-schema": "^2.1.7",
+    "@eslint/object-schema": "^3.0.0",
     "@iarna/toml": "^2.2.5",
     "@reduxjs/toolkit": "^2.10.1",
     "glob": "^13.0.0",

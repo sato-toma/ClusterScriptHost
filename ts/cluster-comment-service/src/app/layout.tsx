@@ -1,5 +1,6 @@
 import "./globals.css";
 import ReduxProvider from "@store/ReduxProvider";
+import NextAuthSessionProvider from "./SessionProvider";
 
 export default function RootLayout({
   children,
@@ -9,7 +10,9 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-        <ReduxProvider>{children}</ReduxProvider>
+        <NextAuthSessionProvider>
+          <ReduxProvider>{children}</ReduxProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

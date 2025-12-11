@@ -1,16 +1,16 @@
 "use client";
 
-import { useAppDispatch } from "@store/hooks";
-import { login } from "@store/slices/authSlice";
-import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const LoginPage = () => {
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-
   const handleLogin = (userId: string) => {
-    dispatch(login(userId));
-    router.push("/"); // ログイン後にホームページへリダイレクト
+    // NextAuthのCredentialsProviderを使ってサインイン処理を行う
+    // 成功後はホームページ('/')にリダイレクトする
+    signIn("credentials", {
+      userId,
+      redirect: true,
+      callbackUrl: "/",
+    });
   };
 
   return (

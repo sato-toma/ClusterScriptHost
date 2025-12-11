@@ -1,25 +1,23 @@
 "use client";
 
-import { useAppSelector, useAppDispatch } from "@store/hooks";
-import { logout } from "@store/slices/authSlice";
+import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 
 const AuthStatus = () => {
-  const dispatch = useAppDispatch();
-  const { isAuthenticated, currentUser } = useAppSelector(
-    (state) => state.auth,
-  );
+  const { data: session, status } = useSession();
+  const isAuthenticated = status === "authenticated";
 
   const handleLogout = () => {
-    dispatch(logout());
+    // ログアウト後にログインページへリダイレクト
+    signOut({ callbackUrl: "/login" });
   };
 
   return (
     <div className="flex items-center gap-4">
-      {isAuthenticated && currentUser ? (
+      {isAuthenticated && session?.user ? (
         <>
           <span className="text-sm text-gray-300">
-            Welcome, {currentUser.username}
+            Welcome, {session.user.name}
           </span>
           <button
             onClick={handleLogout}

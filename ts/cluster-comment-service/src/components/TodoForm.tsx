@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch } from "../store/hooks";
 import { addTodo } from "../store/slices/todoSlice";
+import { useSession } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid";
 import { ChannelId } from "../models/TodoChannel";
 
@@ -10,12 +11,13 @@ type TodoFormProps = {
 };
 const TodoForm = ({ channelId }: TodoFormProps) => {
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector((state) => state.auth.currentUser);
+  const { data: session } = useSession();
+  const currentUser = session?.user;
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   const handleSubmit = () => {
-    if (!currentUser) {
+    if (!currentUser || !currentUser.id) {
       alert("Please login to add a todo.");
       return;
     }

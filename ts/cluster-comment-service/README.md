@@ -34,3 +34,39 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Development Guide
+
+### Environment Setup
+
+This project uses **Vercel Postgres (Neon)** and **Prisma**.
+
+1. **Environment Variables**
+   Pull the development environment variables from Vercel (recommended):
+
+   ```bash
+   npx vercel link
+   npx vercel env pull .env.development.local
+   ```
+
+   Alternatively, copy `.env.sample` to `.env` and fill in the values manually.
+
+2. **Database Initialization**
+   Apply the Prisma schema to your Neon database:
+   ```bash
+   npx prisma db push
+   ```
+
+### Database Management
+
+**Prisma Studio** is the easiest way to view and edit your data (Create, Read, Update, Delete).
+
+Run the following command to open the web-based GUI:
+
+```bash
+npx prisma studio
+```
+
+It will open at http://localhost:5555.
+
+If you modify `schema.prisma`, run `npx prisma db push` again to sync the changes.

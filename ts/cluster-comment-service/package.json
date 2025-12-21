@@ -7,7 +7,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "vitest"
   },
   "dependencies": {
     "@eslint/config-array": "^0.23.0",
@@ -41,6 +42,7 @@
     "prettier": "^3.6.2",
     "tailwindcss": "^4",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.48.1"
+    "typescript-eslint": "^8.48.1",
+    "vitest": "^2.1.8"
   }
 }

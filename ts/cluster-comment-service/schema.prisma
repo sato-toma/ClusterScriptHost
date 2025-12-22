@@ -48,6 +48,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   comments      Comment[]
+  todos         Todo[]
 }
 
 model VerificationToken {
@@ -66,4 +67,25 @@ model Comment {
   userId    String?
   user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   // clusterId String // 将来的にどのクラスタ/タスクへのコメントか識別するIDが必要になります
+}
+
+// prisma/schema.prisma
+
+model Todo {
+  id             String   @id @default(uuid())
+
+  channelId      String
+  completed      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  creatorId      String
+  creator        User     @relation(fields: [creatorId], references: [id])
+
+  description    String?
+  dueDate        DateTime?
+  name           String
+  updatedAt      DateTime @updatedAt
+
+  relatedTaskIds String[]
+  childTaskIds   String[]
+  parentTaskId   String?
 }

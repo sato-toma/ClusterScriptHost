@@ -5,15 +5,14 @@ export type TodoId = string;
 
 export interface Todo {
   id: TodoId;
+
   channelId: ChannelId;
-  creatorId: UserId;
-
-  name: string;
-  description?: string;
-
-  dueDate?: ISODateString;
   completed: boolean;
   createdAt: ISODateString;
+  creatorId: UserId;
+  description?: string;
+  dueDate?: ISODateString;
+  name: string;
   updatedAt?: ISODateString;
 
   relatedTaskIds?: TodoId[];

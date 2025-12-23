@@ -4,10 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "dev": "next dev --turbopack",
     "lint": "eslint .",
+    "postinstall": "prisma generate",
+    "start": "next start",
     "test": "vitest"
   },
   "dependencies": {

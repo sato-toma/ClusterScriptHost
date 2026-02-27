@@ -6,9 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // VercelのConnection Pool用URL
-  directUrl = env("POSTGRES_URL_NON_POOLING") // マイグレーション用直接URL
+  provider = "postgresql"
+  // connection URLs moved to prisma.config.ts per Prisma 7 migration guide
 }
 
 // NextAuth Models

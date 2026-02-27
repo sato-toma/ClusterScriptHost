@@ -58,10 +58,10 @@ export class TodoRepository {
   }
 
   async findByChannelId(channelId: string): Promise<Todo[]> {
-    const results = await this.prisma.todo.findMany({
+    const results: PrismaTodo[] = await this.prisma.todo.findMany({
       where: { channelId } as any,
       orderBy: { createdAt: "desc" }, // 作成日時の新しい順、または "asc" で古い順
     });
-    return results.map((item) => this.mapToModel(item));
+    return results.map((item: PrismaTodo) => this.mapToModel(item));
   }
 }

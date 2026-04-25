@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "next build",
+    "build": "npm run db:generate && next build",
     "db:generate": "prisma generate",
     "dev": "next dev --turbopack",
     "lint": "eslint .",

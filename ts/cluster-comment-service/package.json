@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "next build",
+    "db:generate": "prisma generate",
     "dev": "next dev --turbopack",
     "lint": "eslint .",
-    "postinstall": "prisma generate",
     "start": "next start",
     "test": "vitest"
   },
@@ -17,7 +17,7 @@
     "@iarna/toml": "^2.2.5",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@prisma/adapter-pg": "^7.4.2",
-    "@prisma/client": "^7.4.1",
+    "@prisma/client": "^7.4.2",
     "@reduxjs/toolkit": "^2.10.1",
     "glob": "^13.0.0",
     "next": "^16.1.6",
@@ -35,7 +35,7 @@
     "@eslint/eslintrc": "^3",
     "@eslint/js": "^9.39.1",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^25.0.3",
+    "@types/node": "^25.3.3",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "baseline-browser-mapping": "^2.9.11",

@@ -49,8 +49,87 @@ const todoSlice = createSlice({
       // Todo自体を削除
       delete state.todos[deleteId];
     },
+    addChildTask: (
+      state,
+      action: PayloadAction<{ parentId: string; childId: string }>,
+    ) => {
+      const { parentId, childId } = action.payload;
+      const parent = state.todos[parentId];
+      const child = state.todos[childId];
+
+      if (parent && child) {
+        // 親に子を追加
+        if (!parent.childTaskIds) {
+          parent.childTaskIds = [];
+        }
+        if (!parent.childTaskIds.includes(childId)) {
+          parent.childTaskIds.push(childId);
+        }
+
+        // 子のparentTaskIdを設定
+        child.parentTaskId = parentId;
+      }
+    },
+    removeChildTask: (
+      state,
+      action: PayloadAction<{ parentId: string; childId: string }>,
+    ) => {
+      const { parentId, childId } = action.payload;
+      const parent = state.todos[parentId];
+      const child = state.todos[childId];
+
+      if (parent && child) {
+        // 親から子を削除
+        if (parent.childTaskIds) {
+          parent.childTaskIds = parent.childTaskIds.filter(
+            (id) => id !== childId,
+          );
+        }
+
+        // 子のparentTaskIdをクリア
+        child.parentTaskId = null;
+      }
+    },
+    addRelatedTask: (
+      state,
+      action: PayloadAction<{ todoId: string; relatedId: string }>,
+    ) => {
+      const { todoId, relatedId } = action.payload;
+      const todo = state.todos[todoId];
+      const related = state.todos[relatedId];
+
+      if (todo && related) {
+        if (!todo.relatedTaskIds) {
+          todo.relatedTaskIds = [];
+        }
+        if (!todo.relatedTaskIds.includes(relatedId)) {
+          todo.relatedTaskIds.push(relatedId);
+        }
+      }
+    },
+    removeRelatedTask: (
+      state,
+      action: PayloadAction<{ todoId: string; relatedId: string }>,
+    ) => {
+      const { todoId, relatedId } = action.payload;
+      const todo = state.todos[todoId];
+
+      if (todo && todo.relatedTaskIds) {
+        todo.relatedTaskIds = todo.relatedTaskIds.filter(
+          (id) => id !== relatedId,
+        );
+      }
+    },
   },
 });
 
-export const { addTodo, updateTodo, deleteTodo } = todoSlice.actions;
+export const {
+  addTodo,
+  updateTodo,
+  deleteTodo,
+  addChildTask,
+  removeChildTask,
+  addRelatedTask,
+  removeRelatedTask,
+} = todoSlice.actions;
 export default todoSlice.reducer;

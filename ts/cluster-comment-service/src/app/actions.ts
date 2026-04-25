@@ -73,3 +73,43 @@ export async function deleteTodo(formData: FormData) {
   await todoRepository.delete(id);
   revalidatePath("/");
 }
+
+// --- Todo Relationship Actions ---
+
+export async function addChildTask(formData: FormData) {
+  const parentId = formData.get("parentId") as string;
+  const childId = formData.get("childId") as string;
+
+  const error = TodoService.validateParentChildRelationship(parentId, childId);
+  if (error) throw new Error(error);
+
+  await todoRepository.addChildTask(parentId, childId);
+  revalidatePath("/");
+}
+
+export async function removeChildTask(formData: FormData) {
+  const parentId = formData.get("parentId") as string;
+  const childId = formData.get("childId") as string;
+
+  await todoRepository.removeChildTask(parentId, childId);
+  revalidatePath("/");
+}
+
+export async function addRelatedTask(formData: FormData) {
+  const todoId = formData.get("todoId") as string;
+  const relatedId = formData.get("relatedId") as string;
+
+  const error = TodoService.validateRelatedTask(todoId, relatedId);
+  if (error) throw new Error(error);
+
+  await todoRepository.addRelatedTask(todoId, relatedId);
+  revalidatePath("/");
+}
+
+export async function removeRelatedTask(formData: FormData) {
+  const todoId = formData.get("todoId") as string;
+  const relatedId = formData.get("relatedId") as string;
+
+  await todoRepository.removeRelatedTask(todoId, relatedId);
+  revalidatePath("/");
+}

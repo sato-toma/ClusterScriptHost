@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "next build",
+    "db:generate": "prisma generate",
     "dev": "next dev --turbopack",
     "lint": "eslint .",
-    "postinstall": "prisma generate",
     "start": "next start",
     "test": "vitest"
   },

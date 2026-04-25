@@ -3,6 +3,8 @@ import DashboardPage from "./dashboard/page";
 import { prisma } from "../lib/prisma";
 import CommentSection from "@components/CommentSection";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   // 既存のコメントを表示するためにデータを取得
   const comments = await prisma.comment.findMany({

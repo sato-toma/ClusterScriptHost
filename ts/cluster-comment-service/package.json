@@ -27,7 +27,7 @@
     "prisma": "^7.10.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.3",
-    "react-redux": "^9.2.0",
+    "react-redux": "^9.3.0",
     "reactflow": "^11.11.4",
     "rimraf": "^6.1.0",
     "uuid": "^14.0.0"

@@ -35,7 +35,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.3.8",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^26.6.2",
+    "@types/node": "^26.6.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "baseline-browser-mapping": "^2.10.24",

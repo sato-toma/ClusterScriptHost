@@ -38,7 +38,7 @@
     "@types/node": "^26.6.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "baseline-browser-mapping": "^2.10.24",
+    "baseline-browser-mapping": "^2.11.27",
     "tailwindcss": "^4",
     "typescript": "^7.0.2",
     "vitest": "^5.0.2"
